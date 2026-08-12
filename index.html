@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>पापा का रेडियो 📻 | 90s Memories</title>
+
+
+<meta name="description" content="पापा का रेडियो - कुछ गाने सिर्फ सुने नहीं जाते, यादें बन जाते हैं...">
+
+
+<meta property="og:title" content="पापा का रेडियो 📻">
+
+<meta property="og:description" content="90s के वो गाने जो यादें बन गए">
+
+<meta property="og:image" content="assets/images/logo.png">
+
+<meta property="og:type" content="website">
+
+
+<link rel="icon" href="assets/images/logo.png">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- LOADING SCREEN -->
+
+<div class="loader">
+
+<div class="loader-radio">
+📻
+</div>
+
+
+<h2>
+पापा का रेडियो
+</h2>
+
+
+<p>
+Tuning memories...
+</p>
+
+</div>
+
+
+
+<div class="noise"></div>
+
+<div class="vhs-overlay"></div>
+
+
+
+
+
+<section class="hero">
+
+
+<div class="overlay"></div>
+
+
+<div class="content">
+
+
+<img src="assets/images/logo.png" class="logo">
+
+
+<p class="year">
+EST. 1995
+</p>
+
+
+
+<img src="assets/images/old-radio.png" class="radio">
+
+
+
+<div class="radio-status">
+
+
+<span id="led"></span>
+
+
+<span id="statusText">
+रेडियो बंद है
+</span>
+
+
+</div>
+
+
+
+
+<h1>
+पापा का रेडियो
+</h1>
+
+
+
+<p class="tagline">
+
+कुछ गाने सिर्फ सुने नहीं जाते,
+
+<br>
+
+यादें बन जाते हैं...
+
+</p>
+
+
+
+
+<button id="startBtn">
+
+📻 रेडियो चालू करें
+
+</button>
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- YOUTUBE PLAYER -->
+
+
+<div id="youtube-player"></div>
+
+
+
+
+
+
+
+<!-- MUSIC PLAYER -->
+
+
+<div class="music-player" id="player">
+
+
+
+<img 
+id="album"
+src="assets/images/radio-player-art.png">
+
+
+
+
+
+<div class="song-info">
+
+
+
+<h3 id="title">
+पापा का रेडियो
+</h3>
+
+
+
+<p id="artist">
+90s Memories
+</p>
+
+
+
+<div id="tuning"></div>
+
+
+
+
+<div class="progress-container">
+
+
+
+<span id="currentTime">
+0:00
+</span>
+
+
+
+
+<input
+type="range"
+id="progress"
+value="0"
+min="0"
+max="100">
+
+
+
+
+
+<span id="duration">
+0:00
+</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="controls">
+
+
+
+<button onclick="previousSong()">
+⏮
+</button>
+
+
+
+
+<button id="playBtn" onclick="playPause()">
+▶
+</button>
+
+
+
+
+<button onclick="nextSong()">
+⏭
+</button>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- PAPA KI DIARY -->
+
+
+
+<section class="diary-section">
+
+
+
+<div class="diary-card">
+
+
+
+<p class="diary-year">
+1995 की डायरी
+</p>
+
+
+
+
+<h2>
+पापा की डायरी 📖
+</h2>
+
+
+
+
+
+<p class="diary-text">
+
+कुछ गाने पुराने नहीं होते,
+
+<br>
+
+बस लोग बड़े हो जाते हैं...
+
+</p>
+
+
+
+
+
+<div class="memory">
+
+
+
+<span>
+🎵
+</span>
+
+
+
+
+<p>
+
+शाम की चाय,
+
+<br>
+
+पुराना रेडियो,
+
+<br>
+
+और कुछ अधूरी बातें...
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+<script src="js/playlist.js"></script>
+
+
+<script src="js/script.js"></script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="js/playlist.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+
+</html>

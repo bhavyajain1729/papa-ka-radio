@@ -1,0 +1,925 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+    overflow-y:auto;
+    background:#000;
+    scroll-behavior:smooth;
+}
+html{
+    scroll-snap-type:y mandatory;
+}
+
+.hero{
+    height:100vh;
+    width:100%;
+    background-image:
+    linear-gradient(
+        rgba(0,0,0,.25),
+        rgba(0,0,0,.75)
+    ),
+    url("../assets/images/hero-background.png");
+    background-size:cover;
+    background-position:center;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.85)
+    );
+}
+
+.content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    transform:translateY(-70px);
+}
+
+.logo{
+    width:250px;
+    margin-bottom:5px;
+}
+
+.year{
+    color:#e7c27d;
+    letter-spacing:5px;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.radio{
+    width:190px;
+    max-width:60vw;
+    filter:
+    drop-shadow(0 20px 30px rgba(0,0,0,.8))
+    drop-shadow(0 0 15px rgba(244,201,122,.25));
+    animation:floatRadio 4s ease-in-out infinite;
+}
+
+@keyframes floatRadio{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
+
+h1{
+    margin-top:15px;
+    font-family:'Noto Sans Devanagari',sans-serif;
+    font-size:60px;
+    font-weight:900;
+    color:#f4c97a;
+    text-shadow:0 5px 20px black;
+}
+
+.tagline{
+    margin-top:10px;
+    font-family:'Kalam','Noto Sans Devanagari',sans-serif;
+    font-size:22px;
+    color:#f5e6c8;
+    line-height:1.8;
+}
+
+button{
+    margin-top:40px;
+    padding:15px 40px;
+    border-radius:40px;
+    border:none;
+    background:
+    linear-gradient(
+        135deg,
+        #d28b42,
+        #8b4513
+    );
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.5),
+    inset 0 0 15px rgba(255,220,150,.3);
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.08);
+    box-shadow:
+    0 0 30px rgba(244,201,122,.5);
+}
+
+.noise{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.08;
+    background-image:url(
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"
+    );
+    z-index:10;
+}
+
+
+/* MUSIC PLAYER */
+
+.music-player{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(150px);
+    width:450px;
+    padding:15px 20px;
+    background:
+    linear-gradient(
+        135deg,
+        rgba(80,55,30,.85),
+        rgba(20,15,10,.85)
+    );
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(244,201,122,.35);
+    border-radius:40px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    z-index:50;
+    transition:.5s;
+    box-shadow:0 20px 50px rgba(0,0,0,.7);
+}
+
+.music-player.show{
+    transform:translateX(-50%) translateY(0);
+}
+
+.music-player img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.song-info{
+    flex:1;
+    color:white;
+}
+
+.song-info h3{
+    font-family:'Noto Sans Devanagari',sans-serif;
+    font-size:17px;
+    margin:0;
+    color:#f4c97a;
+}
+
+.song-info p{
+    font-size:12px;
+    opacity:.7;
+}
+
+
+/* PROGRESS BAR */
+
+.progress-container{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:10px;
+    margin-top:8px;
+}
+
+#progress{
+    width:130px;
+    accent-color:#d99b50;
+}
+
+
+/* CONTROLS */
+
+.controls{
+    display:flex;
+    gap:8px;
+}
+
+.controls button{
+    margin:0;
+    padding:0;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    color:white;
+    font-size:16px;
+    box-shadow:none;
+}
+
+.controls button:hover{
+    background:#d99b50;
+}
+
+
+/* YOUTUBE PLAYER */
+
+#youtube-player{
+    position:absolute;
+    width:300px;
+    height:170px;
+    opacity:0;
+    pointer-events:none;
+}
+
+
+/* RADIO STATUS */
+
+.radio-status{
+    margin-top:5px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Kalam',cursive;
+    color:#f5e6c8;
+    font-size:13px;
+}
+
+#led{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#333;
+    display:inline-block;
+}
+
+#led.active{
+    background:red;
+    box-shadow:0 0 15px red;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:.3;
+    }
+}
+
+
+/* TUNING EFFECT */
+
+#tuning{
+    font-size:12px;
+    color:#d99b50;
+    height:18px;
+    margin-top:5px;
+    font-style:italic;
+}
+
+
+@media(max-width:600px){
+
+    .content{
+        transform:translateY(-40px);
+        width:100%;
+        padding:20px;
+    }
+
+    .logo{
+        width:180px;
+    }
+
+    .year{
+        font-size:11px;
+        letter-spacing:4px;
+        margin-bottom:15px;
+    }
+
+    .radio{
+        width:150px;
+    }
+
+    .radio-status{
+        font-size:12px;
+    }
+
+    h1{
+        font-size:38px;
+        margin-top:10px;
+    }
+
+    .tagline{
+        font-size:16px;
+        line-height:1.6;
+    }
+
+    button{
+        margin-top:25px;
+        padding:12px 30px;
+        font-size:15px;
+    }
+
+
+    /* PLAYER */
+
+    .music-player{
+        width:92%;
+        bottom:15px;
+        padding:12px 15px;
+        border-radius:30px;
+        gap:10px;
+    }
+
+
+    .music-player img{
+        width:50px;
+        height:50px;
+    }
+
+
+    .song-info h3{
+        font-size:14px;
+    }
+
+
+    .song-info p{
+        font-size:11px;
+    }
+
+
+    .progress-container{
+        gap:5px;
+    }
+
+
+    #progress{
+        width:80px;
+    }
+
+
+    .controls{
+        gap:5px;
+    }
+
+
+    .controls button{
+        width:34px;
+        height:34px;
+        font-size:14px;
+    }
+
+
+}
+
+.cassette-loading{
+    animation:tapeSpin .8s ease;
+}
+
+@keyframes tapeSpin{
+
+    0%{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    50%{
+        opacity:.5;
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+#tuning{
+    color:#d99b50;
+    font-size:12px;
+    height:18px;
+    margin-top:5px;
+    font-style:italic;
+}
+
+.rotate{
+animation:rotateAlbum 1s linear;
+}
+
+@keyframes rotateAlbum{
+
+from{
+    transform:rotate(0deg);
+}
+to{
+    transform:rotate(360deg);
+}
+}
+
+/* VHS RETRO EFFECT */
+
+.vhs-overlay{
+
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:15;
+background:
+linear-gradient(
+rgba(255,255,255,.03),
+rgba(255,255,255,.03)
+),
+
+repeating-linear-gradient(
+0deg,
+rgba(255,255,255,.04),
+rgba(255,255,255,.04) 1px,
+transparent 1px,
+transparent 4px
+);
+
+animation:vhsMove 8s linear infinite;
+}
+
+@keyframes vhsMove{
+
+0%{
+transform:translateY(0);
+}
+
+100%{
+transform:translateY(20px);
+}
+}
+/* OLD SCREEN LIGHT */
+
+.hero{
+animation:screenPulse 5s infinite;
+}
+
+@keyframes screenPulse{
+
+0%,100%{
+filter:brightness(1);
+}
+
+
+50%{
+filter:brightness(1.08);
+}
+
+}
+
+/* RANDOM FILM DUST */
+
+.noise{
+animation:noiseMove .3s infinite;
+}
+
+
+@keyframes noiseMove{
+
+0%{
+transform:translate(0);
+}
+
+25%{
+transform:translate(2px,-2px);
+}
+
+50%{
+transform:translate(-2px,2px);
+}
+
+75%{
+transform:translate(1px,1px);
+}
+
+100%{
+transform:translate(0);
+}
+}
+
+/* DIARY SECTION */
+
+.diary-section{
+
+height:100vh;
+
+width:100%;
+
+background:
+
+linear-gradient(
+rgba(0,0,0,.7),
+rgba(0,0,0,.9)
+),
+
+url("../assets/images/diary-bg.png");
+
+
+background-size:cover;
+
+background-position:center;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+
+
+.diary-card{
+
+width:500px;
+
+padding:40px;
+
+background:
+
+rgba(245,220,170,.12);
+
+
+border:
+
+1px solid rgba(255,220,150,.3);
+
+
+backdrop-filter:blur(10px);
+
+
+text-align:center;
+
+
+border-radius:20px;
+
+
+color:#f5e6c8;
+
+
+box-shadow:
+
+0 20px 50px rgba(0,0,0,.5);
+
+
+}
+
+
+
+.diary-year{
+
+letter-spacing:5px;
+
+font-size:14px;
+
+color:#d99b50;
+
+}
+
+
+
+.diary-card h2{
+
+margin-top:20px;
+
+font-family:'Noto Sans Devanagari';
+
+font-size:45px;
+
+color:#f4c97a;
+
+}
+
+
+
+.diary-text{
+
+margin-top:25px;
+
+font-family:'Kalam';
+
+font-size:24px;
+
+line-height:1.8;
+
+}
+
+
+
+.memory{
+
+margin-top:35px;
+
+padding:20px;
+
+
+background:
+
+rgba(0,0,0,.25);
+
+
+border-radius:15px;
+
+
+font-size:18px;
+
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+align-items:center;
+
+
+}
+
+
+.memory span{
+
+font-size:35px;
+
+}
+
+/* DIARY SECTION */
+
+.diary-section{
+    min-height:100vh;
+    width:100%;
+    background:
+    linear-gradient(
+        rgba(0,0,0,.65),
+        rgba(0,0,0,.85)
+    ),
+    url("../assets/images/diary-bg.png");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:40px;
+}
+
+
+.diary-card{
+
+    width:520px;
+
+    padding:45px;
+
+    background:
+    rgba(255,240,200,.15);
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,220,150,.3);
+
+    border-radius:20px;
+
+    text-align:center;
+
+    color:#f5e6c8;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.6);
+
+
+    animation:diaryAppear 1.5s ease;
+
+}
+
+
+@keyframes diaryAppear{
+
+from{
+
+    opacity:0;
+
+    transform:translateY(50px);
+
+}
+
+to{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+}
+
+
+.diary-year{
+
+    color:#d99b50;
+
+    letter-spacing:5px;
+
+    font-size:14px;
+
+}
+
+
+
+.diary-card h2{
+
+    margin-top:20px;
+
+    font-family:'Noto Sans Devanagari';
+
+    font-size:45px;
+
+    color:#f4c97a;
+
+}
+
+
+
+.diary-text{
+
+    margin-top:25px;
+
+    font-family:'Kalam',cursive;
+
+    font-size:25px;
+
+    line-height:1.8;
+
+}
+
+
+
+.memory{
+
+    margin-top:35px;
+
+    padding:20px;
+
+    background:
+    rgba(0,0,0,.25);
+
+    border-radius:15px;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+
+}
+
+
+.memory span{
+
+    font-size:40px;
+
+}
+
+
+.memory p{
+
+    font-family:'Kalam';
+
+    font-size:20px;
+
+}
+
+.hero,
+.diary-section{
+    scroll-snap-align:start;
+    min-height:100vh;
+}
+
+@media(max-width:600px){
+
+.hero{
+    min-height:100vh;
+}
+
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:radial-gradient(circle,transparent 40%,rgba(0,0,0,.65));
+    z-index:1;
+}
+
+/* LOADING SCREEN */
+
+.loader{
+
+position:fixed;
+
+inset:0;
+
+background:#0b0805;
+
+z-index:999;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+color:#f5e6c8;
+
+animation:loaderHide 1s ease 2s forwards;
+
+}
+
+
+.loader-radio{
+
+font-size:70px;
+
+animation:radioPulse 1.5s infinite;
+
+}
+
+
+
+.loader h2{
+
+margin-top:20px;
+
+font-family:'Noto Sans Devanagari';
+
+font-size:35px;
+
+color:#f4c97a;
+
+}
+
+
+
+.loader p{
+
+margin-top:10px;
+
+font-family:'Kalam';
+
+font-size:22px;
+
+color:#d99b50;
+
+}
+
+
+
+@keyframes radioPulse{
+
+0%,100%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.15);
+
+}
+
+}
+
+
+
+@keyframes loaderHide{
+
+to{
+
+opacity:0;
+
+visibility:hidden;
+
+}
+
+}
