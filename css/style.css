@@ -23,7 +23,7 @@ html{
         rgba(0,0,0,.25),
         rgba(0,0,0,.75)
     ),
-    url("../assets/images/hero-background.png");
+    url("../assets/images/hero-background.webp");
     background-size:cover;
     background-position:center;
     position:relative;
