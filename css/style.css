@@ -1720,3 +1720,515 @@ border:1px solid #d99b4d;
 font-size:18px;
 
 }
+
+/* =====================================
+   COMPLETE RESPONSIVE DESIGN
+   Papa Ka Radio 📻
+===================================== */
+
+
+/* Default image fix */
+img{
+    max-width:100%;
+    height:auto;
+}
+
+
+/* Prevent horizontal scroll */
+html,body{
+    overflow-x:hidden;
+}
+
+
+/* ===============================
+   LARGE DESKTOP
+================================ */
+
+@media(min-width:1200px){
+
+.content{
+    transform:scale(1);
+}
+
+
+h1{
+    font-size:70px;
+}
+
+
+.radio{
+    width:300px;
+}
+
+}
+
+
+
+/* ===============================
+   TABLET
+================================ */
+
+@media(max-width:992px){
+
+
+.content{
+
+    width:90%;
+    margin:auto;
+
+}
+
+
+.logo{
+
+    width:180px;
+
+}
+
+
+.radio{
+
+    width:230px;
+
+}
+
+
+h1{
+
+    font-size:55px;
+
+}
+
+
+.tagline{
+
+    font-size:18px;
+
+}
+
+
+/* music player */
+
+.music-player{
+
+    width:80%;
+
+}
+
+
+}
+
+
+
+
+
+/* ===============================
+   MOBILE LARGE
+   430px - 600px
+================================ */
+
+@media(max-width:600px){
+
+
+.hero{
+
+    min-height:100svh;
+
+}
+
+
+.content{
+
+    width:100%;
+
+    padding:20px;
+
+}
+
+
+.logo{
+
+    width:150px;
+
+}
+
+
+.year{
+
+    font-size:12px;
+
+}
+
+
+.radio{
+
+    width:170px;
+
+}
+
+
+
+h1{
+
+    font-size:42px !important;
+
+    line-height:1.3;
+
+}
+
+
+
+.tagline{
+
+    font-size:15px;
+
+    line-height:1.8;
+
+}
+
+
+
+
+#startBtn{
+
+    font-size:14px;
+
+    padding:12px 28px;
+
+}
+
+
+
+
+/* floating button */
+
+.memory-btn{
+
+    top:15px;
+
+    right:12px;
+
+    font-size:11px;
+
+    padding:8px 14px;
+
+}
+
+
+
+
+
+/* popup */
+
+
+.popup{
+
+    padding:15px;
+
+}
+
+
+.popup-card{
+
+    width:85%;
+
+    padding:25px 18px;
+
+}
+
+
+
+.popup-logo{
+
+    width:65px;
+
+}
+
+
+
+.popup-card h2{
+
+    font-size:20px;
+
+}
+
+
+
+
+
+/* review popup */
+
+
+.review-card{
+
+    width:88%;
+
+    max-height:85vh;
+
+    overflow-y:auto;
+
+    padding:25px 18px;
+
+}
+
+
+
+.review-logo{
+
+    width:60px;
+
+    height:60px;
+
+}
+
+
+.review-card h2{
+
+    font-size:20px;
+
+}
+
+
+
+.stars span{
+
+    font-size:28px;
+
+}
+
+
+#reviewText{
+
+    width:100%;
+
+    height:90px;
+
+}
+
+
+
+
+
+/* music player */
+
+
+.music-player{
+
+    width:92%;
+
+    left:4%;
+
+    bottom:20px;
+
+    padding:12px;
+
+}
+
+
+
+#album{
+
+    width:50px;
+
+    height:50px;
+
+}
+
+
+
+.song-info h3{
+
+    font-size:13px;
+
+}
+
+
+
+.song-info p{
+
+    font-size:11px;
+
+}
+
+
+
+.controls button{
+
+    font-size:14px;
+
+    width:32px;
+
+    height:32px;
+
+}
+
+
+
+
+
+/* diary */
+
+
+.diary-card{
+
+    width:90%;
+
+    padding:20px;
+
+}
+
+
+.diary-card h2{
+
+    font-size:25px;
+
+}
+
+
+}
+
+
+
+
+/* ===============================
+   SMALL PHONE
+   320px - 380px
+================================ */
+
+@media(max-width:380px){
+
+
+.logo{
+
+    width:120px;
+
+}
+
+
+
+.radio{
+
+    width:140px;
+
+}
+
+
+
+h1{
+
+    font-size:34px !important;
+
+}
+
+
+
+.tagline{
+
+    font-size:13px;
+
+}
+
+
+
+#startBtn{
+
+    padding:10px 22px;
+
+}
+
+
+
+.memory-btn{
+
+    font-size:10px;
+
+}
+
+
+
+.music-player{
+
+    width:94%;
+
+    left:3%;
+
+}
+
+
+
+.controls{
+
+    gap:5px;
+
+}
+
+
+
+.review-card{
+
+    width:92%;
+
+}
+
+
+.stars span{
+
+    font-size:24px;
+
+}
+
+
+
+}
+
+
+
+
+
+/* ===============================
+   EXTRA LARGE MOBILE
+   600px - 768px
+================================ */
+
+@media(min-width:601px) and (max-width:768px){
+
+
+h1{
+
+    font-size:60px;
+
+}
+
+
+
+.radio{
+
+    width:250px;
+
+}
+
+
+}
+
+
+
+
+
+/* Touch friendly buttons */
+
+button,
+a{
+
+    -webkit-tap-highlight-color:transparent;
+
+}
+
+
+
+/* Safe area for modern phones */
+
+.music-player{
+
+    padding-bottom:env(safe-area-inset-bottom);
+
+}
