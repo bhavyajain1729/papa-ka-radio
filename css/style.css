@@ -1,2234 +1,588 @@
+/* =====================================================================
+   PAPA KA RADIO — STYLESHEET
+   Cleaned & consolidated. Every selector now has exactly ONE canonical
+   definition (the old file re-defined .music-player 11x, .popup 3x,
+   .memory-btn 4x etc. across scattered media queries — whichever rule
+   happened to load last "won", which is why the player drifted off
+   -screen on real phones). Sizing is fluid (clamp/min/vw) wherever
+   possible so we don't need a wall of breakpoints fighting each other.
+
+   Sections:
+   1. Reset & base          5. Music player
+   2. Loader / noise / VHS  6. Diary + footer
+   3. Hero                  7. Floating button + popups
+   4. (Hero continued)      8. Small responsive tweaks
+===================================================================== */
+
+/* ---------------------------------------------------------
+   1. RESET & BASE
+--------------------------------------------------------- */
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html{
+  scroll-snap-type: y mandatory;
+}
+
+html, body{
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* single source of truth for "no horizontal scroll" */
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    overflow-x:hidden;
-    overflow-y:auto;
-    background:#000;
-    scroll-behavior:smooth;
-}
-html{
-    scroll-snap-type:y mandatory;
+  font-family: 'Poppins', sans-serif;
+  background: #000;
+  scroll-behavior: smooth;
 }
 
-.hero{
-    height:100vh;
-    width:100%;
-    background-image:
-    linear-gradient(
-        rgba(0,0,0,.25),
-        rgba(0,0,0,.75)
-    ),
-    url("../assets/images/hero-background.webp");
-    background-size:cover;
-    background-position:center;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+img{
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-        rgba(0,0,0,.35),
-        rgba(0,0,0,.85)
-    );
+/* ---------------------------------------------------------
+   2. LOADER / NOISE / VHS OVERLAY
+--------------------------------------------------------- */
+.loader{
+  position: fixed;
+  inset: 0;
+  background: #0b0805;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f5e6c8;
+  text-align: center;
+  padding: 20px;
+  animation: loaderHide 1s ease 2s forwards;
 }
+.loader-radio{ font-size: 70px; animation: radioPulse 1.5s infinite; }
+.loader h2{ margin-top: 20px; font-family: 'Noto Sans Devanagari', sans-serif; font-size: clamp(24px, 6vw, 35px); color: #f4c97a; }
+.loader p{ margin-top: 10px; font-family: 'Kalam', cursive; font-size: clamp(16px, 4vw, 22px); color: #d99b50; }
 
-.content{
-    position:relative;
-    z-index:2;
-    text-align:center;
-    color:#fff;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    transform:translateY(-70px);
-}
-
-.logo{
-    width:250px;
-    margin-bottom:5px;
-}
-
-.year{
-    color:#e7c27d;
-    letter-spacing:5px;
-    font-size:13px;
-    margin-bottom:20px;
-}
-
-.radio{
-    width:190px;
-    max-width:60vw;
-    filter:
-    drop-shadow(0 20px 30px rgba(0,0,0,.8))
-    drop-shadow(0 0 15px rgba(244,201,122,.25));
-    animation:floatRadio 4s ease-in-out infinite;
-}
-
-@keyframes floatRadio{
-    0%,100%{
-        transform:translateY(0);
-    }
-    50%{
-        transform:translateY(-12px);
-    }
-}
-
-h1{
-    margin-top:15px;
-    font-family:'Noto Sans Devanagari',sans-serif;
-    font-size:60px;
-    font-weight:900;
-    color:#f4c97a;
-    text-shadow:0 5px 20px black;
-}
-
-.tagline{
-    margin-top:10px;
-    font-family:'Kalam','Noto Sans Devanagari',sans-serif;
-    font-size:22px;
-    color:#f5e6c8;
-    line-height:1.8;
-}
-
-button{
-    margin-top:40px;
-    padding:15px 40px;
-    border-radius:40px;
-    border:none;
-    background:
-    linear-gradient(
-        135deg,
-        #d28b42,
-        #8b4513
-    );
-    color:white;
-    font-size:17px;
-    cursor:pointer;
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.5),
-    inset 0 0 15px rgba(255,220,150,.3);
-    transition:.3s;
-}
-
-button:hover{
-    transform:scale(1.08);
-    box-shadow:
-    0 0 30px rgba(244,201,122,.5);
-}
+@keyframes radioPulse{ 0%, 100%{ transform: scale(1); } 50%{ transform: scale(1.15); } }
+@keyframes loaderHide{ to{ opacity: 0; visibility: hidden; } }
 
 .noise{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.08;
-    background-image:url(
-    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"
-    );
-    z-index:10;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .08;
+  z-index: 10;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: noiseMove .3s infinite;
 }
-
-
-/* MUSIC PLAYER */
-
-.music-player{
-    position:fixed;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%) translateY(150px);
-    width:450px;
-    padding:15px 20px;
-    background:
-    linear-gradient(
-        135deg,
-        rgba(80,55,30,.85),
-        rgba(20,15,10,.85)
-    );
-    backdrop-filter:blur(20px);
-    border:1px solid rgba(244,201,122,.35);
-    border-radius:40px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    z-index:50;
-    transition:.5s;
-    box-shadow:0 20px 50px rgba(0,0,0,.7);
+@keyframes noiseMove{
+  0%{ transform: translate(0); }
+  25%{ transform: translate(2px,-2px); }
+  50%{ transform: translate(-2px,2px); }
+  75%{ transform: translate(1px,1px); }
+  100%{ transform: translate(0); }
 }
-
-.music-player.show{
-    transform:translateX(-50%) translateY(0);
-}
-
-.music-player img{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-.song-info{
-    flex:1;
-    color:white;
-}
-
-.song-info h3{
-    font-family:'Noto Sans Devanagari',sans-serif;
-    font-size:17px;
-    margin:0;
-    color:#f4c97a;
-}
-
-.song-info p{
-    font-size:12px;
-    opacity:.7;
-}
-
-
-/* PROGRESS BAR */
-
-.progress-container{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:10px;
-    margin-top:8px;
-}
-
-#progress{
-    width:130px;
-    accent-color:#d99b50;
-}
-
-
-/* CONTROLS */
-
-.controls{
-    display:flex;
-    gap:8px;
-}
-
-.controls button{
-    margin:0;
-    padding:0;
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:rgba(255,255,255,.15);
-    color:white;
-    font-size:16px;
-    box-shadow:none;
-}
-
-.controls button:hover{
-    background:#d99b50;
-}
-
-
-/* YOUTUBE PLAYER */
-
-#youtube-player{
-    position:absolute;
-    width:300px;
-    height:170px;
-    opacity:0;
-    pointer-events:none;
-}
-
-
-/* RADIO STATUS */
-
-.radio-status{
-    margin-top:5px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-family:'Kalam',cursive;
-    color:#f5e6c8;
-    font-size:13px;
-}
-
-#led{
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:#333;
-    display:inline-block;
-}
-
-#led.active{
-    background:red;
-    box-shadow:0 0 15px red;
-    animation:blink 1s infinite;
-}
-
-@keyframes blink{
-    50%{
-        opacity:.3;
-    }
-}
-
-
-/* TUNING EFFECT */
-
-#tuning{
-    font-size:12px;
-    color:#d99b50;
-    height:18px;
-    margin-top:5px;
-    font-style:italic;
-}
-
-
-@media(max-width:600px){
-
-    .content{
-        transform:translateY(-40px);
-        width:100%;
-        padding:20px;
-    }
-
-    .logo{
-        width:180px;
-    }
-
-    .year{
-        font-size:11px;
-        letter-spacing:4px;
-        margin-bottom:15px;
-    }
-
-    .radio{
-        width:150px;
-    }
-
-    .radio-status{
-        font-size:12px;
-    }
-
-    h1{
-        font-size:38px;
-        margin-top:10px;
-    }
-
-    .tagline{
-        font-size:16px;
-        line-height:1.6;
-    }
-
-    button{
-        margin-top:25px;
-        padding:12px 30px;
-        font-size:15px;
-    }
-
-
-    /* PLAYER */
-
-    .music-player{
-        width:92%;
-        bottom:15px;
-        padding:12px 15px;
-        border-radius:30px;
-        gap:10px;
-    }
-
-
-    .music-player img{
-        width:50px;
-        height:50px;
-    }
-
-
-    .song-info h3{
-        font-size:14px;
-    }
-
-
-    .song-info p{
-        font-size:11px;
-    }
-
-
-    .progress-container{
-        gap:5px;
-    }
-
-
-    #progress{
-        width:80px;
-    }
-
-
-    .controls{
-        gap:5px;
-    }
-
-
-    .controls button{
-        width:34px;
-        height:34px;
-        font-size:14px;
-    }
-
-
-}
-
-.cassette-loading{
-    animation:tapeSpin .8s ease;
-}
-
-@keyframes tapeSpin{
-
-    0%{
-        opacity:0;
-        transform:translateY(10px);
-    }
-
-    50%{
-        opacity:.5;
-    }
-
-    100%{
-        opacity:1;
-        transform:translateY(0);
-    }
-
-}
-
-
-#tuning{
-    color:#d99b50;
-    font-size:12px;
-    height:18px;
-    margin-top:5px;
-    font-style:italic;
-}
-
-.rotate{
-animation:rotateAlbum 1s linear;
-}
-
-@keyframes rotateAlbum{
-
-from{
-    transform:rotate(0deg);
-}
-to{
-    transform:rotate(360deg);
-}
-}
-
-/* VHS RETRO EFFECT */
 
 .vhs-overlay{
-
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:15;
-background:
-linear-gradient(
-rgba(255,255,255,.03),
-rgba(255,255,255,.03)
-),
-
-repeating-linear-gradient(
-0deg,
-rgba(255,255,255,.04),
-rgba(255,255,255,.04) 1px,
-transparent 1px,
-transparent 4px
-);
-
-animation:vhsMove 8s linear infinite;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  background:
+    linear-gradient(rgba(255,255,255,.03), rgba(255,255,255,.03)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04), rgba(255,255,255,.04) 1px, transparent 1px, transparent 4px);
+  animation: vhsMove 8s linear infinite;
 }
+@keyframes vhsMove{ 0%{ transform: translateY(0); } 100%{ transform: translateY(20px); } }
 
-@keyframes vhsMove{
-
-0%{
-transform:translateY(0);
-}
-
-100%{
-transform:translateY(20px);
-}
-}
-/* OLD SCREEN LIGHT */
-
+/* ---------------------------------------------------------
+   3. HERO
+--------------------------------------------------------- */
 .hero{
-animation:screenPulse 5s infinite;
+  min-height: 100svh; /* falls back fine in browsers without svh support */
+  width: 100%;
+  background-image:
+    linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.75)),
+    url("../assets/images/hero-background.webp");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  animation: screenPulse 5s infinite;
 }
-
-@keyframes screenPulse{
-
-0%,100%{
-filter:brightness(1);
-}
-
-
-50%{
-filter:brightness(1.08);
-}
-
-}
-
-/* RANDOM FILM DUST */
-
-.noise{
-animation:noiseMove .3s infinite;
-}
-
-
-@keyframes noiseMove{
-
-0%{
-transform:translate(0);
-}
-
-25%{
-transform:translate(2px,-2px);
-}
-
-50%{
-transform:translate(-2px,2px);
-}
-
-75%{
-transform:translate(1px,1px);
-}
-
-100%{
-transform:translate(0);
-}
-}
-
-/* DIARY SECTION */
-
-.diary-section{
-
-height:100vh;
-
-width:100%;
-
-background:
-
-linear-gradient(
-rgba(0,0,0,.7),
-rgba(0,0,0,.9)
-),
-
-url("../assets/images/diary-bg.png");
-
-
-background-size:cover;
-
-background-position:center;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-}
-
-
-
-.diary-card{
-
-width:500px;
-
-padding:40px;
-
-background:
-
-rgba(245,220,170,.12);
-
-
-border:
-
-1px solid rgba(255,220,150,.3);
-
-
-backdrop-filter:blur(10px);
-
-
-text-align:center;
-
-
-border-radius:20px;
-
-
-color:#f5e6c8;
-
-
-box-shadow:
-
-0 20px 50px rgba(0,0,0,.5);
-
-
-}
-
-
-
-.diary-year{
-
-letter-spacing:5px;
-
-font-size:14px;
-
-color:#d99b50;
-
-}
-
-
-
-.diary-card h2{
-
-margin-top:20px;
-
-font-family:'Noto Sans Devanagari';
-
-font-size:45px;
-
-color:#f4c97a;
-
-}
-
-
-
-.diary-text{
-
-margin-top:25px;
-
-font-family:'Kalam';
-
-font-size:24px;
-
-line-height:1.8;
-
-}
-
-
-
-.memory{
-
-margin-top:35px;
-
-padding:20px;
-
-
-background:
-
-rgba(0,0,0,.25);
-
-
-border-radius:15px;
-
-
-font-size:18px;
-
-
-display:flex;
-
-justify-content:center;
-
-gap:15px;
-
-align-items:center;
-
-
-}
-
-
-.memory span{
-
-font-size:35px;
-
-}
-
-/* DIARY SECTION */
-
-.diary-section{
-    min-height:100vh;
-    width:100%;
-    background:
-    linear-gradient(
-        rgba(0,0,0,.65),
-        rgba(0,0,0,.85)
-    ),
-    url("../assets/images/diary-bg.png");
-
-    background-size:cover;
-    background-position:center;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding:40px;
-}
-
-
-.diary-card{
-
-    width:520px;
-
-    padding:45px;
-
-    background:
-    rgba(255,240,200,.15);
-
-    backdrop-filter:blur(10px);
-
-    border:1px solid rgba(255,220,150,.3);
-
-    border-radius:20px;
-
-    text-align:center;
-
-    color:#f5e6c8;
-
-    box-shadow:
-    0 20px 50px rgba(0,0,0,.6);
-
-
-    animation:diaryAppear 1.5s ease;
-
-}
-
-
-@keyframes diaryAppear{
-
-from{
-
-    opacity:0;
-
-    transform:translateY(50px);
-
-}
-
-to{
-
-    opacity:1;
-
-    transform:translateY(0);
-
-}
-
-}
-
-
-.diary-year{
-
-    color:#d99b50;
-
-    letter-spacing:5px;
-
-    font-size:14px;
-
-}
-
-
-
-.diary-card h2{
-
-    margin-top:20px;
-
-    font-family:'Noto Sans Devanagari';
-
-    font-size:45px;
-
-    color:#f4c97a;
-
-}
-
-
-
-.diary-text{
-
-    margin-top:25px;
-
-    font-family:'Kalam',cursive;
-
-    font-size:25px;
-
-    line-height:1.8;
-
-}
-
-
-
-.memory{
-
-    margin-top:35px;
-
-    padding:20px;
-
-    background:
-    rgba(0,0,0,.25);
-
-    border-radius:15px;
-
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:15px;
-
-
-}
-
-
-.memory span{
-
-    font-size:40px;
-
-}
-
-
-.memory p{
-
-    font-family:'Kalam';
-
-    font-size:20px;
-
-}
-
-.hero,
-.diary-section{
-    scroll-snap-align:start;
-    min-height:100vh;
-}
-
-@media(max-width:600px){
-
-.hero{
-    min-height:100vh;
-}
-
-}
-
 .hero::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background:radial-gradient(circle,transparent 40%,rgba(0,0,0,.65));
-    z-index:1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 40%, rgba(0,0,0,.65));
+  z-index: 1;
+}
+@keyframes screenPulse{ 0%, 100%{ filter: brightness(1); } 50%{ filter: brightness(1.08); } }
+
+.overlay{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.85));
 }
 
-/* LOADING SCREEN */
-
-.loader{
-
-position:fixed;
-
-inset:0;
-
-background:#0b0805;
-
-z-index:999;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
-
-color:#f5e6c8;
-
-animation:loaderHide 1s ease 2s forwards;
-
+.content{
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px;
+  transform: translateY(-40px);
 }
 
+.logo{ width: min(48vw, 250px); margin: 0 auto 5px; }
 
-.loader-radio{
+.year{ color: #e7c27d; letter-spacing: 5px; font-size: clamp(11px, 2.6vw, 13px); margin-bottom: 18px; }
 
-font-size:70px;
+.radio{
+  width: min(50vw, 190px);
+  margin: 0 auto;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,.8)) drop-shadow(0 0 15px rgba(244,201,122,.25));
+  animation: floatRadio 4s ease-in-out infinite;
+}
+@keyframes floatRadio{ 0%, 100%{ transform: translateY(0); } 50%{ transform: translateY(-12px); } }
 
-animation:radioPulse 1.5s infinite;
+.radio-status{
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Kalam', cursive;
+  color: #f5e6c8;
+  font-size: clamp(12px, 3vw, 13px);
+}
+#led{ width: 10px; height: 10px; border-radius: 50%; background: #333; display: inline-block; flex: none; }
+#led.active{ background: red; box-shadow: 0 0 15px red; animation: blink 1s infinite; }
+@keyframes blink{ 50%{ opacity: .3; } }
 
+h1{
+  margin-top: 15px;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: clamp(32px, 9vw, 60px);
+  font-weight: 900;
+  line-height: 1.2;
+  color: #f4c97a;
+  text-shadow: 0 5px 20px black;
 }
 
-
-
-.loader h2{
-
-margin-top:20px;
-
-font-family:'Noto Sans Devanagari';
-
-font-size:35px;
-
-color:#f4c97a;
-
+.tagline{
+  margin-top: 10px;
+  font-family: 'Kalam', 'Noto Sans Devanagari', sans-serif;
+  font-size: clamp(13px, 4vw, 22px);
+  color: #f5e6c8;
+  line-height: 1.8;
 }
 
-
-
-.loader p{
-
-margin-top:10px;
-
-font-family:'Kalam';
-
-font-size:22px;
-
-color:#d99b50;
-
+#startBtn{
+  margin-top: clamp(25px, 5vw, 40px);
+  padding: clamp(11px, 2.6vw, 15px) clamp(22px, 6vw, 40px);
+  border-radius: 40px;
+  border: none;
+  max-width: 92%;
+  background: linear-gradient(135deg, #d28b42, #8b4513);
+  color: #fff;
+  font-size: clamp(14px, 3.4vw, 17px);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5), inset 0 0 15px rgba(255,220,150,.3);
+  transition: .3s;
 }
+#startBtn:hover{ transform: scale(1.06); box-shadow: 0 0 30px rgba(244,201,122,.5); }
 
-
-
-@keyframes radioPulse{
-
-0%,100%{
-
-transform:scale(1);
-
-}
-
-50%{
-
-transform:scale(1.15);
-
-}
-
-}
-
-
-
-@keyframes loaderHide{
-
-to{
-
-opacity:0;
-
-visibility:hidden;
-
-}
-
-}
-/* =========================
-   MUSIC PLAYER RESPONSIVE
-========================= */
-
+/* ---------------------------------------------------------
+   5. MUSIC PLAYER
+   Root cause of the mobile overflow bug: the old file defined
+   .music-player width in ~11 different places (420px, 380px,
+   320px, 340px, 300px, 92%, calc(100vw-24px)...) across
+   overlapping media queries — whichever happened to be last in
+   the cascade at a given breakpoint won, and on several real
+   device widths that was a fixed px value wider than the
+   viewport. One fluid rule replaces all of them.
+--------------------------------------------------------- */
 .music-player{
-    width: 420px;
-    max-width: 90%;
-    padding: 15px;
-    border-radius: 20px;
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(150px);
+  width: min(420px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  padding: clamp(10px, 2.6vw, 15px) clamp(12px, 3.2vw, 20px);
+  background: linear-gradient(135deg, rgba(80,55,30,.85), rgba(20,15,10,.85));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(244,201,122,.35);
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 15px);
+  z-index: 50;
+  box-shadow: 0 20px 50px rgba(0,0,0,.7);
+  transition: transform .5s ease;
 }
+.music-player.show{ transform: translateX(-50%) translateY(0); }
 
-
-/* Desktop */
-@media (min-width:768px){
-
-    .music-player{
-        width: 380px;
-        bottom: 25px;
-    }
-
+.music-player #album{
+  width: clamp(42px, 12vw, 60px);
+  height: clamp(42px, 12vw, 60px);
+  min-width: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
 }
+.music-player #album.rotate{ animation: rotateAlbum 1s linear; }
+@keyframes rotateAlbum{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
 
-.music-player{
-    backdrop-filter: blur(10px);
-}
-/* Mobile */
-@media (max-width:600px){
-
-    .music-player{
-        width: calc(100% - 40px);
-        max-width: 320px;
-        padding: 10px;
-        bottom: 15px;
-        border-radius: 18px;
-    }
-
-
-    #album{
-        width:45px;
-        height:45px;
-    }
-
-
-    .song-info h3{
-        font-size:14px;
-    }
-
-
-    .song-info p{
-        font-size:11px;
-    }
-
-
-    .controls button{
-        width:32px;
-        height:32px;
-        font-size:14px;
-    }
-
-
-    .progress-container{
-        font-size:10px;
-    }
-
-}
-
-/* ===============================
-   MINI RETRO PLAYER POLISH
-================================ */
-
-.music-player {
-    width: 340px;
-    max-width: calc(100% - 32px);
-    padding: 30px 12px;
-    border-radius: 18px;
-}
-
-
-/* Album image */
-
-#album {
-    width: 48px;
-    height: 48px;
-}
-
-
-/* Song section */
-
-.song-info h3 {
-    font-size: 14px;
-    margin-bottom: 2px;
-}
-
-.song-info p {
-    font-size: 11px;
-}
-
-
-/* Controls */
-
-.controls {
-    gap: 8px;
-}
-
-.controls button {
-
-    width: 34px;
-    height: 34px;
-
-    font-size: 14px;
-}
-
-
-/* Progress */
-
-.progress-container {
-
-    font-size: 10px;
-
-}
-
-
-/* Mobile */
-
-@media(max-width:600px){
-
-.music-player{
-
-    width: 300px;
-    padding: 9px 10px;
-
-    bottom:15px;
-
-}
-
-
-#album{
-
-    width:42px;
-    height:42px;
-
-}
-
-
-.controls button{
-
-    width:30px;
-    height:30px;
-
-    font-size:12px;
-
-}
-
-
+.song-info{ flex: 1 1 auto; min-width: 0; color: #fff; }
 .song-info h3{
-
-    font-size:13px;
-
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: clamp(13px, 3.4vw, 17px);
+  color: #f4c97a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-
 .song-info p{
-
-    font-size:10px;
-
+  font-size: clamp(10px, 2.6vw, 12px);
+  opacity: .7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+#tuning{
+  font-size: 12px;
+  color: #d99b50;
+  height: 18px;
+  margin-top: 5px;
+  font-style: italic;
+}
+#tuning.cassette-loading{ animation: tapeSpin .8s ease; }
+@keyframes tapeSpin{
+  0%{ opacity: 0; transform: translateY(10px); }
+  50%{ opacity: .5; }
+  100%{ opacity: 1; transform: translateY(0); }
 }
 
-/* FIX PLAYER OVERFLOW */
-
-.music-player{
-    width:320px;
-    max-width:calc(100% - 30px);
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    overflow:hidden;
+.progress-container{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  margin-top: 8px;
+  width: 100%;
+  min-width: 0;
 }
-
-
-/* song area */
-
-.song-info{
-    flex:1;
-    min-width:0;
+#progress{
+  flex: 1 1 auto;
+  width: 100%;   /* fluid — was a fixed 130px/80px in the old file, a second overflow source */
+  min-width: 0;
+  accent-color: #d99b50;
 }
+#currentTime, #duration{ flex: none; white-space: nowrap; }
 
-
-/* text cut */
-
-.song-info h3,
-.song-info p{
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-
-}
-
-
-/* controls */
-
-.controls{
-
-    display:flex;
-    gap:5px;
-    flex-shrink:0;
-
-}
-
-
+.controls{ display: flex; align-items: center; gap: clamp(5px, 1.6vw, 8px); flex: none; }
 .controls button{
+  margin: 0;
+  padding: 0;
+  width: clamp(30px, 8vw, 38px);
+  height: clamp(30px, 8vw, 38px);
+  min-width: 30px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  font-size: clamp(13px, 3.4vw, 16px);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.controls button:hover{ background: #d99b50; }
 
-    width:30px;
-    height:30px;
-    padding:0;
-
-    font-size:12px;
-
+/* Hidden audio-only YouTube host — never visible, never affects layout */
+#youtube-player{
+  position: absolute;
+  width: 300px;
+  height: 170px;
+  top: -9999px;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
 }
 
-
-/* mobile */
-
-@media(max-width:600px){
-
-.music-player{
-
-    width:290px;
-    padding:8px;
-
+/* ---------------------------------------------------------
+   6. DIARY + FOOTER
+--------------------------------------------------------- */
+.diary-section{
+  min-height: 100vh;
+  width: 100%;
+  background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.85)),
+    url("../assets/images/diary-bg.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  padding: 40px 16px;
 }
 
-
-#album{
-
-    width:38px;
-    height:38px;
-
+.diary-card{
+  width: 100%;
+  max-width: 520px;
+  padding: clamp(24px, 6vw, 45px);
+  background: rgba(255,240,200,.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,220,150,.3);
+  border-radius: 20px;
+  text-align: center;
+  color: #f5e6c8;
+  box-shadow: 0 20px 50px rgba(0,0,0,.6);
+  animation: diaryAppear 1.5s ease;
 }
+@keyframes diaryAppear{ from{ opacity: 0; transform: translateY(50px); } to{ opacity: 1; transform: translateY(0); } }
 
+.diary-year{ color: #d99b50; letter-spacing: 5px; font-size: 14px; }
+.diary-card h2{ margin-top: 20px; font-family: 'Noto Sans Devanagari', sans-serif; font-size: clamp(26px, 6vw, 45px); color: #f4c97a; }
+.diary-text{ margin-top: 25px; font-family: 'Kalam', cursive; font-size: clamp(17px, 4vw, 25px); line-height: 1.8; }
 
-.controls button{
-
-    width:27px;
-    height:27px;
-
+.memory{
+  margin-top: 35px;
+  padding: 20px;
+  background: rgba(0,0,0,.25);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
 }
+.memory span{ font-size: clamp(30px, 7vw, 40px); flex: none; }
+.memory p{ font-family: 'Kalam', cursive; font-size: clamp(15px, 3.6vw, 20px); }
 
-}
 .footer{
-
-text-align:center;
-padding:20px;
-
-font-size:12px;
-color:#c9a15b;
-
-opacity:0.8;
-
+  text-align: center;
+  padding: 20px 16px;
+  font-size: 12px;
+  color: #c9a15b;
+  opacity: .8;
 }
-/* FLOATING BUTTON */
+.footer .review-social{ margin-bottom: 10px; }
+.instagram-btn{
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  background: linear-gradient(135deg, #ff9a3c, #d62976, #962fbf);
+}
 
-
-/* Floating Diary Button */
-
+/* ---------------------------------------------------------
+   7. FLOATING BUTTON + POPUPS
+--------------------------------------------------------- */
 .memory-btn{
+  position: fixed;
+  top: 18px;
+  right: 16px;
+  z-index: 9999;
+  max-width: calc(100vw - 32px);
+  padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 18px);
+  border-radius: 30px;
+  border: 1px solid rgba(244,201,122,.6);
+  background: rgba(45,25,15,.85);
+  color: #f4c97a;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(11px, 2.8vw, 14px);
+  white-space: nowrap;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 5px 20px rgba(0,0,0,.5);
+  transition: .3s;
+}
+.memory-btn:hover{ transform: translateY(-3px); background: rgba(80,45,20,.9); }
 
-    position:fixed;
+/* Both popups share one show/hide mechanism: the "active" class.
+   (The old CSS mixed this with inline style.display in JS, which is
+   exactly what caused the two popup code paths to fight each other.) */
+.popup,
+.review-popup{
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.popup.active,
+.review-popup.active{ display: flex; }
 
-    top:25px;
-    right:25px;
+.popup-card,
+.review-card{
+  width: min(360px, calc(100vw - 32px));
+  max-height: 85svh;
+  overflow-y: auto;
+  padding: clamp(22px, 5vw, 30px);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #3a2417, #160d07);
+  border: 1px solid #c9974d;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  box-shadow: 0 20px 50px black;
+  box-sizing: border-box;
+}
+.review-card{ background: #2b180f; border-color: #d89b3c; }
 
-    z-index:9999;
-
-
-    padding:10px 18px;
-
-
-    border-radius:30px;
-
-
-    border:1px solid rgba(244,201,122,.6);
-
-
-    background:
-    rgba(45,25,15,.85);
-
-
-    color:#f4c97a;
-
-
-    font-family:'Poppins',sans-serif;
-
-
-    font-size:14px;
-
-
-    cursor:pointer;
-
-
-    backdrop-filter:blur(8px);
-
-
-    box-shadow:
-    0 5px 20px rgba(0,0,0,.5);
-
-
-    transition:.3s;
-
+.popup-logo,
+.review-logo{
+  width: clamp(60px, 15vw, 70px);
+  height: clamp(60px, 15vw, 70px);
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 12px;
 }
 
+.popup-card h2,
+.review-card h2{ color: #f4c97a; font-size: clamp(19px, 4.6vw, 24px); }
+.popup-card p,
+.review-card p{ color: #e7d0a5; font-size: clamp(13px, 3.2vw, 15px); }
+.copyright{ font-size: 12px !important; opacity: .8; }
 
-
-.memory-btn:hover{
-
-    transform:translateY(-3px);
-
-    background:
-    rgba(80,45,20,.9);
-
+.close-btn,
+.review-close{
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3a2417;
+  border: 1px solid #d4a24c;
+  color: #f4c97a;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0,0,0,.6);
+  transition: .3s;
 }
+.close-btn:hover,
+.review-close:hover{ transform: rotate(90deg) scale(1.1); background: #8b4513; color: #fff; }
 
-
-
-
-
-/* POPUP */
-
-
-.popup{
-
-
-display:none;
-
-
-position:fixed;
-
-
-inset:0;
-
-
-background:rgba(0,0,0,.7);
-
-
-z-index:2000;
-
-
-align-items:center;
-
-
-justify-content:center;
-
-
-}
-
-
-
-
-
-.popup.active{
-
-
-display:flex;
-
-
-}
-
-
-
-
-.popup-card{
-
-
-width:330px;
-
-
-padding:30px;
-
-
-border-radius:30px;
-
-
-background:
-
-linear-gradient(
-145deg,
-#3a2417,
-#160d07
-);
-
-
-border:1px solid #c9974d;
-
-
-text-align:center;
-
-
-color:white;
-
-
-position:relative;
-
-
-box-shadow:0 20px 50px black;
-
-
-}
-
-
-
-.popup-logo{
-
-
-width:70px;
-
-border-radius:50%;
-
-
-}
-
-
-
-.popup-card h2{
-
-
-color:#f4c97a;
-
-
-}
-
-
-
-.popup-card p{
-
-
-color:#e7d0a5;
-
-
-}
-
-
-.close-btn{
-
-    position:absolute;
-
-    top:-18px;
-
-    right:-18px;
-
-
-    width:42px;
-
-    height:42px;
-
-
-    border-radius:50%;
-
-
-    background:#3a2417;
-
-
-    border:1px solid #d4a24c;
-
-
-    color:#f4c97a;
-
-
-    font-size:20px;
-
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    cursor:pointer;
-
-
-    box-shadow:
-    0 5px 20px rgba(0,0,0,.6);
-
-
-    transition:.3s;
-
-}
-
-
-
-.close-btn:hover{
-
-    transform:rotate(90deg) scale(1.1);
-
-    background:#8b4513;
-
-    color:white;
-
-}
-
-
-
-.popup-divider{
-
-
-height:1px;
-
-background:#b8863b;
-
-margin:20px 0;
-
-
-}
-
-
+.popup-divider{ height: 1px; background: #b8863b; margin: 20px 0; }
 
 .popup-rate,
+.review-btn,
 .popup-instagram{
-
-
-display:block;
-
-
-margin-top:15px;
-
-
-padding:12px;
-
-
-border-radius:25px;
-
-
-text-decoration:none;
-
-
-color:white;
-
-
-font-weight:bold;
-
-
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  box-sizing: border-box;
 }
+/* .review-btn is the button's actual class in index.html — the old CSS
+   only ever styled .popup-rate, so the button rendered unstyled. Both
+   selectors now point at the same rule. */
+.popup-rate,
+.review-btn{ background: #b86b22; }
+.popup-instagram{ background: linear-gradient(135deg, #ff9a3c, #d62976, #962fbf); }
 
+.stars{ display: flex; justify-content: center; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
+.stars span{ font-size: clamp(26px, 7vw, 35px); cursor: pointer; color: #777; line-height: 1; }
+.stars span.active{ color: #ffc107; }
 
-
-.popup-rate{
-
-
-background:#b86b22;
-
-
+#reviewText{
+  width: 100%;
+  height: 90px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 15px;
+  border: 1px solid #8b5a2b;
+  background: #1c100b;
+  color: #fff;
+  resize: none;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
-
-
-
-.popup-instagram{
-
-
-background:linear-gradient(
-135deg,
-#ff9a3c,
-#d62976,
-#962fbf
-);
-
-
-}
-
-@media(max-width:600px){
-
-.memory-btn{
-
-    top:15px;
-
-    right:15px;
-
-    font-size:12px;
-
-    padding:8px 14px;
-
-}
-
-}
-.review-popup{
-
-position:fixed;
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,.75);
-
-display:none;
-
-justify-content:center;
-align-items:center;
-
-z-index:9999;
-
-}
-
-
-.review-card{
-
-background:#2b180f;
-
-width:330px;
-
-padding:30px;
-
-border-radius:25px;
-
-border:1px solid #d89b3c;
-
-text-align:center;
-
-color:white;
-
-position:relative;
-
-}
-
-
-
-.review-close{
-
-position:absolute;
-
-right:-15px;
-
-top:-15px;
-
-border-radius:50%;
-
-width:40px;
-
-height:40px;
-
-background:#3a2418;
-
-color:#ffd27d;
-
-border:1px solid #d89b3c;
-
-}
-
-.stars{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:8px;
-
-    margin:20px 0;
-
-}
-
-
-.stars span{
-
-    font-size:35px;
-
-    cursor:pointer;
-
-    color:#777;
-
-}
-
-
-.stars span.active{
-
-    color:#ffc107;
-
-}
-
-
-.review-card textarea{
-
-width:100%;
-
-height:100px;
-
-margin-top:20px;
-
-background:#170d09;
-
-color:white;
-
-border-radius:15px;
-
-padding:10px;
-
-}
-
-
 
 #submitReview{
-
-margin-top:20px;
-
-padding:12px 30px;
-
-border-radius:30px;
-
-border:none;
-
-background:#d47a20;
-
-color:white;
-
-font-weight:bold;
-
+  margin-top: 16px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
+  background: #d47a20;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.review-popup.active{
-    display:flex;
-}
-.review-logo{
-
-    width:80px;
-    height:80px;
-
-    object-fit:cover;
-
-    border-radius:50%;
-
-    margin:10px auto 15px;
-
-    display:block;
-
+#reviewMsg{
+  margin-top: 12px;
+  font-size: 13px;
+  color: #f4c97a;
+  min-height: 16px;
 }
 
-.review-card{
+/* ---------------------------------------------------------
+   8. TARGETED RESPONSIVE TWEAKS
+   Most sizing above is already fluid (clamp/min/vw), so we only
+   need a small number of breakpoints for layout-level changes —
+   not another round of re-declaring the same components.
+--------------------------------------------------------- */
 
-    width:90%;
-
-    max-width:360px;
-
-    max-height:85vh;
-
-    overflow-y:auto;
-
-    padding:25px;
-
-    border-radius:25px;
-
+/* Small phones: tighten a couple of paddings further */
+@media (max-width: 380px){
+  .content{ padding: 16px 12px; }
+  #startBtn{ padding: 10px 20px; }
+  .music-player{ border-radius: 26px; }
 }
 
-#reviewText{
-
-width:100%;
-
-height:90px;
-
-border-radius:15px;
-
-padding:15px;
-
-resize:none;
-
-background:#1c100b;
-
-color:white;
-
-border:1px solid #8b5a2b;
-
-}
-.review-close{
-
-position:absolute;
-
-right:-15px;
-
-top:-15px;
-
-width:40px;
-
-height:40px;
-
-border-radius:50%;
-
-background:#5b3a22;
-
-color:white;
-
-border:1px solid #d99b4d;
-
-font-size:18px;
-
+/* Tablet-and-down: scroll-snap only feels right once each section
+   reliably fills the screen; keep hero full height */
+@media (max-width: 992px){
+  .content{ width: 100%; }
 }
 
-/* =====================================
-   COMPLETE RESPONSIVE DESIGN
-   Papa Ka Radio 📻
-===================================== */
-
-
-/* Default image fix */
-img{
-    max-width:100%;
-    height:auto;
+/* Large desktop: let the hero breathe a bit more */
+@media (min-width: 1200px){
+  h1{ font-size: 70px; }
+  .radio{ width: 300px; }
+  .music-player{ width: 420px; }
 }
 
-
-/* Prevent horizontal scroll */
-html,body{
-    overflow-x:hidden;
-}
-
-
-/* ===============================
-   LARGE DESKTOP
-================================ */
-
-@media(min-width:1200px){
-
-.content{
-    transform:scale(1);
-}
-
-
-h1{
-    font-size:70px;
-}
-
-
-.radio{
-    width:300px;
-}
-
-}
-
-
-
-/* ===============================
-   TABLET
-================================ */
-
-@media(max-width:992px){
-
-
-.content{
-
-    width:90%;
-    margin:auto;
-
-}
-
-
-.logo{
-
-    width:180px;
-
-}
-
-
-.radio{
-
-    width:230px;
-
-}
-
-
-h1{
-
-    font-size:55px;
-
-}
-
-
-.tagline{
-
-    font-size:18px;
-
-}
-
-
-/* music player */
-
-.music-player{
-
-    width:80%;
-
-}
-
-
-}
-
-
-
-
-
-/* ===============================
-   MOBILE LARGE
-   430px - 600px
-================================ */
-
-@media(max-width:600px){
-
-
-.hero{
-
-    min-height:100svh;
-
-}
-
-
-.content{
-
-    width:100%;
-
-    padding:20px;
-
-}
-
-
-.logo{
-
-    width:150px;
-
-}
-
-
-.year{
-
-    font-size:12px;
-
-}
-
-
-.radio{
-
-    width:170px;
-
-}
-
-
-
-h1{
-
-    font-size:42px !important;
-
-    line-height:1.3;
-
-}
-
-
-
-.tagline{
-
-    font-size:15px;
-
-    line-height:1.8;
-
-}
-
-
-
-
-#startBtn{
-
-    font-size:14px;
-
-    padding:12px 28px;
-
-}
-
-
-
-
-/* floating button */
-
-.memory-btn{
-
-    top:15px;
-
-    right:12px;
-
-    font-size:11px;
-
-    padding:8px 14px;
-
-}
-
-
-
-
-
-/* popup */
-
-
-.popup{
-
-    padding:15px;
-
-}
-
-
-.popup-card{
-
-    width:85%;
-
-    padding:25px 18px;
-
-}
-
-
-
-.popup-logo{
-
-    width:65px;
-
-}
-
-
-
-.popup-card h2{
-
-    font-size:20px;
-
-}
-
-
-
-
-
-/* review popup */
-
-
-.review-card{
-
-    width:88%;
-
-    max-height:85vh;
-
-    overflow-y:auto;
-
-    padding:25px 18px;
-
-}
-
-
-
-.review-logo{
-
-    width:60px;
-
-    height:60px;
-
-}
-
-
-.review-card h2{
-
-    font-size:20px;
-
-}
-
-
-
-.stars span{
-
-    font-size:28px;
-
-}
-
-
-#reviewText{
-
-    width:100%;
-
-    height:90px;
-
-}
-
-
-
-
-
-/* music player */
-
-
-.music-player{
-
-    width:92%;
-
-    left:4%;
-
-    bottom:20px;
-
-    padding:12px;
-
-}
-
-
-
-#album{
-
-    width:50px;
-
-    height:50px;
-
-}
-
-
-
-.song-info h3{
-
-    font-size:13px;
-
-}
-
-
-
-.song-info p{
-
-    font-size:11px;
-
-}
-
-
-
-.controls button{
-
-    font-size:14px;
-
-    width:32px;
-
-    height:32px;
-
-}
-
-
-
-
-
-/* diary */
-
-
-.diary-card{
-
-    width:90%;
-
-    padding:20px;
-
-}
-
-
-.diary-card h2{
-
-    font-size:25px;
-
-}
-
-
-}
-
-
-
-
-/* ===============================
-   SMALL PHONE
-   320px - 380px
-================================ */
-
-@media(max-width:380px){
-
-
-.logo{
-
-    width:120px;
-
-}
-
-
-
-.radio{
-
-    width:140px;
-
-}
-
-
-
-h1{
-
-    font-size:34px !important;
-
-}
-
-
-
-.tagline{
-
-    font-size:13px;
-
-}
-
-
-
-#startBtn{
-
-    padding:10px 22px;
-
-}
-
-
-
-.memory-btn{
-
-    font-size:10px;
-
-}
-
-
-
-.music-player{
-
-    width:94%;
-
-    left:3%;
-
-}
-
-
-
-.controls{
-
-    gap:5px;
-
-}
-
-
-
-.review-card{
-
-    width:92%;
-
-}
-
-
-.stars span{
-
-    font-size:24px;
-
-}
-
-
-
-}
-
-
-
-
-
-/* ===============================
-   EXTRA LARGE MOBILE
-   600px - 768px
-================================ */
-
-@media(min-width:601px) and (max-width:768px){
-
-
-h1{
-
-    font-size:60px;
-
-}
-
-
-
-.radio{
-
-    width:250px;
-
-}
-
-
-}
-
-
-
-
-
-/* Touch friendly buttons */
-
-button,
-a{
-
-    -webkit-tap-highlight-color:transparent;
-
-}
-
-
-
-/* Safe area for modern phones */
-
-.music-player{
-
-    padding-bottom:env(safe-area-inset-bottom);
-
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  .radio, .hero, .noise, .vhs-overlay, .loader-radio, #led.active,
+  .music-player #album.rotate, .diary-card, #tuning.cassette-loading{
+    animation: none !important;
+  }
 }
