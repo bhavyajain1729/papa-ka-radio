@@ -923,3 +923,256 @@ visibility:hidden;
 }
 
 }
+/* =========================
+   MUSIC PLAYER RESPONSIVE
+========================= */
+
+.music-player{
+    width: 420px;
+    max-width: 90%;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+
+/* Desktop */
+@media (min-width:768px){
+
+    .music-player{
+        width: 380px;
+        bottom: 25px;
+    }
+
+}
+
+.music-player{
+    backdrop-filter: blur(10px);
+}
+/* Mobile */
+@media (max-width:600px){
+
+    .music-player{
+        width: calc(100% - 40px);
+        max-width: 320px;
+        padding: 10px;
+        bottom: 15px;
+        border-radius: 18px;
+    }
+
+
+    #album{
+        width:45px;
+        height:45px;
+    }
+
+
+    .song-info h3{
+        font-size:14px;
+    }
+
+
+    .song-info p{
+        font-size:11px;
+    }
+
+
+    .controls button{
+        width:32px;
+        height:32px;
+        font-size:14px;
+    }
+
+
+    .progress-container{
+        font-size:10px;
+    }
+
+}
+
+/* ===============================
+   MINI RETRO PLAYER POLISH
+================================ */
+
+.music-player {
+    width: 340px;
+    max-width: calc(100% - 32px);
+    padding: 30px 12px;
+    border-radius: 18px;
+}
+
+
+/* Album image */
+
+#album {
+    width: 48px;
+    height: 48px;
+}
+
+
+/* Song section */
+
+.song-info h3 {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.song-info p {
+    font-size: 11px;
+}
+
+
+/* Controls */
+
+.controls {
+    gap: 8px;
+}
+
+.controls button {
+
+    width: 34px;
+    height: 34px;
+
+    font-size: 14px;
+}
+
+
+/* Progress */
+
+.progress-container {
+
+    font-size: 10px;
+
+}
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+.music-player{
+
+    width: 300px;
+    padding: 9px 10px;
+
+    bottom:15px;
+
+}
+
+
+#album{
+
+    width:42px;
+    height:42px;
+
+}
+
+
+.controls button{
+
+    width:30px;
+    height:30px;
+
+    font-size:12px;
+
+}
+
+
+.song-info h3{
+
+    font-size:13px;
+
+}
+
+
+.song-info p{
+
+    font-size:10px;
+
+}
+
+}
+
+/* FIX PLAYER OVERFLOW */
+
+.music-player{
+    width:320px;
+    max-width:calc(100% - 30px);
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    overflow:hidden;
+}
+
+
+/* song area */
+
+.song-info{
+    flex:1;
+    min-width:0;
+}
+
+
+/* text cut */
+
+.song-info h3,
+.song-info p{
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+}
+
+
+/* controls */
+
+.controls{
+
+    display:flex;
+    gap:5px;
+    flex-shrink:0;
+
+}
+
+
+.controls button{
+
+    width:30px;
+    height:30px;
+    padding:0;
+
+    font-size:12px;
+
+}
+
+
+/* mobile */
+
+@media(max-width:600px){
+
+.music-player{
+
+    width:290px;
+    padding:8px;
+
+}
+
+
+#album{
+
+    width:38px;
+    height:38px;
+
+}
+
+
+.controls button{
+
+    width:27px;
+    height:27px;
+
+}
+
+}
