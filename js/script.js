@@ -709,9 +709,9 @@ popup.classList.remove("active");
 /* ================================
    INFO POPUP
 ================================ */
-const memoryBtn=document.getElementById("memoryBtn");
-const popup=document.getElementById("infoPopup");
-const closePopup = document.getElementById("closePopup");
+//const memoryBtn=document.getElementById("memoryBtn");
+//const popup=document.getElementById("infoPopup");
+//const closePopup = document.getElementById("closePopup");
 
 
 
