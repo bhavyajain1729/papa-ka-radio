@@ -23,6 +23,13 @@
 <meta property="og:type" content="website">
 
 
+<meta name="author" content="Bhavya Jain">
+
+<meta name="copyright" content="© 2026 Bhavya Jain. All Rights Reserved.">
+
+<meta name="robots" content="index, follow">
+
+
 <link rel="icon" href="assets/images/logo.png">
 
 
@@ -31,12 +38,211 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+
 </head>
 
 
 <body>
 
 
+
+<!-- FLOATING BUTTON -->
+
+<button id="memoryBtn" class="memory-btn">
+
+📻 Papa Ki Diary
+
+</button>
+
+
+
+
+
+<!-- MAIN INFO POPUP -->
+
+<div id="infoPopup" class="popup">
+
+
+<div class="popup-card">
+
+
+<button id="closePopup" class="close-btn">
+
+✕
+
+</button>
+
+
+
+<img 
+src="assets/images/logo.png"
+class="popup-logo">
+
+
+
+<h2>
+Papa Ka Radio 📻
+</h2>
+
+
+
+<p>
+
+कुछ गाने सिर्फ सुने नहीं जाते,
+<br>
+यादें बन जाते हैं...
+
+</p>
+
+
+
+<div class="popup-divider"></div>
+
+
+
+<p class="copyright">
+
+© 2026 Bhavya Jain.
+<br>
+
+All Rights Reserved.
+
+</p>
+
+<button 
+id="openReview"
+class="review-btn">
+
+⭐ Rate Papa Ka Radio
+
+</button>
+
+<a 
+href="https://www.instagram.com/bhavyajain_17/"
+target="_blank"
+class="popup-instagram">
+
+📸 Follow @bhavyajain_17
+
+</a>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- REVIEW POPUP -->
+
+
+<div id="reviewPopup" class="review-popup">
+
+
+<div class="review-card">
+
+
+
+<button id="closeReview" class="review-close">
+
+✕
+
+</button>
+
+
+
+
+<img 
+src="assets/images/logo.png"
+class="review-logo">
+
+
+
+
+
+<h2>
+
+⭐ Rate Papa Ka Radio
+
+</h2>
+
+
+
+<p>
+
+Aapko kaisa laga?
+
+</p>
+
+
+
+
+<div class="stars">
+
+
+<span data-star="1">
+★
+</span>
+
+
+<span data-star="2">
+★
+</span>
+
+
+<span data-star="3">
+★
+</span>
+
+
+<span data-star="4">
+★
+</span>
+
+
+<span data-star="5">
+★
+</span>
+
+
+</div>
+
+
+
+
+
+<textarea
+
+id="reviewText"
+
+placeholder="Apni yaad share kare...">
+
+</textarea>
+
+
+
+
+
+<button id="submitReview">
+
+❤️ Submit Review
+
+</button>
+
+
+
+
+<p id="reviewMsg"></p>
+
+
+
+</div>
+
+
+</div>
 <!-- LOADING SCREEN -->
 
 <div class="loader">
@@ -59,6 +265,8 @@ Tuning memories...
 
 
 
+
+
 <div class="noise"></div>
 
 <div class="vhs-overlay"></div>
@@ -67,25 +275,39 @@ Tuning memories...
 
 
 
+
+<!-- HERO SECTION -->
+
+
 <section class="hero">
 
 
 <div class="overlay"></div>
 
 
+
 <div class="content">
+
 
 
 <img src="assets/images/logo.png" class="logo">
 
 
+
 <p class="year">
+
 EST. 1995
+
 </p>
 
 
 
+
+
 <img src="assets/images/old-radio.png" class="radio">
+
+
+
 
 
 
@@ -96,7 +318,9 @@ EST. 1995
 
 
 <span id="statusText">
+
 रेडियो बंद है
+
 </span>
 
 
@@ -105,30 +329,49 @@ EST. 1995
 
 
 
+
+
 <h1>
+
 पापा का रेडियो
+
 </h1>
+
+
+
+
 
 
 
 <p class="tagline">
 
+
 कुछ गाने सिर्फ सुने नहीं जाते,
+
 
 <br>
 
+
 यादें बन जाते हैं...
+
+
 
 </p>
 
 
 
 
+
+
+
 <button id="startBtn">
+
 
 📻 रेडियो चालू करें
 
+
 </button>
+
 
 
 
@@ -137,6 +380,8 @@ EST. 1995
 
 
 </section>
+
+
 
 
 
@@ -155,6 +400,8 @@ EST. 1995
 
 
 
+
+
 <!-- MUSIC PLAYER -->
 
 
@@ -163,8 +410,11 @@ EST. 1995
 
 
 <img 
+
 id="album"
+
 src="assets/images/radio-player-art.png">
+
 
 
 
@@ -174,19 +424,33 @@ src="assets/images/radio-player-art.png">
 
 
 
+
+
 <h3 id="title">
+
 पापा का रेडियो
+
 </h3>
 
 
 
+
+
 <p id="artist">
+
 90s Memories
+
 </p>
 
 
 
+
+
+
 <div id="tuning"></div>
+
+
+
 
 
 
@@ -196,34 +460,54 @@ src="assets/images/radio-player-art.png">
 
 
 <span id="currentTime">
+
 0:00
+
 </span>
 
 
 
 
+
 <input
+
 type="range"
+
 id="progress"
+
 value="0"
+
 min="0"
+
 max="100">
 
 
 
 
 
+
 <span id="duration">
+
 0:00
+
 </span>
 
 
 
+
+
 </div>
 
 
 
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -235,32 +519,59 @@ max="100">
 
 
 
+
+
 <button onclick="previousSong()">
+
+
 ⏮
+
+
 </button>
+
+
 
 
 
 
 <button id="playBtn" onclick="playPause()">
+
+
+
 ▶
+
+
+
 </button>
+
+
+
 
 
 
 
 <button onclick="nextSong()">
+
+
+
 ⏭
+
+
+
 </button>
 
 
 
-</div>
-
-
 
 
 </div>
+
+
+
+
+
+</div>
+
 
 
 
@@ -277,20 +588,33 @@ max="100">
 
 
 
+
+
 <div class="diary-card">
 
 
 
+
+
 <p class="diary-year">
+
 1995 की डायरी
+
 </p>
 
 
 
 
+
+
+
 <h2>
+
 पापा की डायरी 📖
+
 </h2>
+
+
 
 
 
@@ -298,13 +622,20 @@ max="100">
 
 <p class="diary-text">
 
+
 कुछ गाने पुराने नहीं होते,
+
 
 <br>
 
+
 बस लोग बड़े हो जाते हैं...
 
+
+
 </p>
+
+
 
 
 
@@ -314,41 +645,135 @@ max="100">
 
 
 
+
+
 <span>
+
 🎵
+
 </span>
+
+
+
+
 
 
 
 
 <p>
 
+
 शाम की चाय,
 
+
 <br>
+
 
 पुराना रेडियो,
 
+
 <br>
 
+
 और कुछ अधूरी बातें...
+
+
 
 </p>
 
 
 
+
+
 </div>
 
 
 
+
+
+
+
 </div>
+
+
+
 
 
 
 </section>
 
+
+
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+
+<footer class="footer">
+
+
+
+<div class="review-social">
+
+
+
+
+
+<a
+
+href="https://www.instagram.com/bhavyajain_17/"
+
+target="_blank"
+
+class="instagram-btn">
+
+
+📸 Follow on Instagram
+
+
+</a>
+
+
+
+
+</div>
+
+
+
+
+
+<p>
+
+© 2026 Bhavya Jain. All Rights Reserved.
+
+</p>
+
+
+
+
+
+<p>
+
+📻 Papa Ka Radio
+
+</p>
+
+</footer>
+
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script src="js/playlist.js?v=5"></script>
+
+<script type="module" src="js/firebase.js"></script>
+
+<script type="module" src="js/reviews.js"></script>
+
 <script src="js/script.js?v=5"></script>
 
 </body>
