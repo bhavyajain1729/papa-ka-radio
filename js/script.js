@@ -22,7 +22,8 @@ player=new YT.Player("youtube-player",{
 height:"1",
 width:"1",
 
-videoId:playlist[0].youtubeId,
+// videoId:playlist[0].youtubeId,
+videoId:"",
 
 playerVars:{
 autoplay:0,
@@ -146,7 +147,8 @@ currentSong=index;
 let song=playlist[index];
 
 
-console.log("Now Playing:",song.title,song.youtubeId);
+// console.log("Now Playing:",song.title,song.youtubeId);
+alert("Playing: " + song.title);
 
 
 document.getElementById("album").classList.add("rotate");
