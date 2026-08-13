@@ -332,3 +332,31 @@
   });
 
 })();
+function loadDailyDiary(){
+
+    const yearElement = document.querySelector(".diary-year");
+    const quoteElement = document.querySelector(".diary-text");
+
+
+    if(!yearElement || !quoteElement){
+        return;
+    }
+
+
+    const today = new Date();
+
+    const index = today.getDate() % diaryQuotes.length;
+
+
+    yearElement.innerHTML = diaryQuotes[index].year;
+
+
+    quoteElement.innerHTML = diaryQuotes[index].quote;
+
+}
+
+
+document.addEventListener(
+"DOMContentLoaded",
+loadDailyDiary
+);
