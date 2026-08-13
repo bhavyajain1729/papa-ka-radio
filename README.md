@@ -15,3 +15,9 @@ HTML5
 CSS3
 JavaScript
 YouTube IFrame API
+
+## Copyright
+
+© 2026 Bhavya Jain.
+Papa Ka Radio is a personal creative project.
+Unauthorized copying or redistribution is prohibited.
