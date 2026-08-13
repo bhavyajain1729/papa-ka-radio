@@ -147,8 +147,8 @@ currentSong=index;
 let song=playlist[index];
 
 
-// console.log("Now Playing:",song.title,song.youtubeId);
-alert("Playing: " + song.title);
+console.log("Now Playing:",song.title,song.youtubeId);
+
 
 
 document.getElementById("album").classList.add("rotate");
